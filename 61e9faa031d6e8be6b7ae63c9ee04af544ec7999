@@ -1,0 +1,46 @@
+.claude/skills/terminal-setup/SKILL.md
+  6aa76a924f587a53 1-234
+dotfiles/tmux.conf
+  6aa76a924f587a53 1-98
+dotfiles/Brewfile
+  6aa76a924f587a53 1-35
+dotfiles/starship.toml
+  6aa76a924f587a53 1-141
+dotfiles/zshrc
+  6aa76a924f587a53 1-111
+dotfiles/gitconfig
+  6aa76a924f587a53 1-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "61e9faa031d6e8be6b7ae63c9ee04af544ec7999",
+  "prompts": {
+    "6aa76a924f587a53": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7906cbe7-da14-42a0-bfba-4f5c835a6d8d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "jin <993607100@qq.com>",
+      "messages": [],
+      "total_additions": 687,
+      "total_deletions": 15,
+      "accepted_lines": 672,
+      "overriden_lines": 0
+    },
+    "f06c90db1dcaa979": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "65f2e9c1-92f1-4456-957b-56857960b58e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "jin <993607100@qq.com>",
+      "messages": [],
+      "total_additions": 227,
+      "total_deletions": 0,
+      "accepted_lines": 227,
+      "overriden_lines": 0
+    }
+  }
+}
