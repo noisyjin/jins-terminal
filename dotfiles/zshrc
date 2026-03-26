@@ -1,0 +1,111 @@
+# ============================================
+# Zsh 配置 — Zinit + Starship
+# ============================================
+
+# ── 环境变量 ──────────────────────────────
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+# [CUSTOMIZE: JDK] 如需 Java 开发，取消注释并修改为实际路径
+# export JAVA_HOME="$HOME/path/to/your/jdk/Contents/Home"
+# export PATH="$JAVA_HOME/bin:$PATH"
+
+# ── Zinit 引导安装 ───────────────────────
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# ── 补全系统（同步加载，确保 Tab 立即可用）──
+autoload -Uz compinit
+compinit -C
+
+# ── Zinit 插件（Turbo Mode 懒加载）──────
+# Oh My Zsh git 插件（保留全部 git alias: ga, gst, gco, gp 等）
+zinit ice wait lucid
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+
+# Oh My Zsh 核心库
+zinit ice wait lucid
+zinit snippet OMZ::lib/completion.zsh
+zinit ice wait lucid
+zinit snippet OMZ::lib/history.zsh
+zinit ice wait lucid
+zinit snippet OMZ::lib/key-bindings.zsh
+zinit ice wait lucid
+zinit snippet OMZ::lib/directories.zsh
+
+# 语法高亮（fast-syntax-highlighting，比 zsh-syntax-highlighting 更快）
+zinit ice wait lucid atinit"zicdreplay"
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+# 历史命令自动建议
+zinit ice wait lucid atload"!_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
+
+# 额外补全脚本集合
+zinit ice wait lucid blockf atpull"zinit creinstall -q ."
+zinit light zsh-users/zsh-completions
+
+# forgit — git 交互式 TUI（通过 brew 安装，直接 source）
+zinit ice wait lucid
+zinit snippet "$(brew --prefix)/opt/forgit/share/forgit/forgit.plugin.zsh"
+
+# ── fzf 集成 ─────────────────────────────
+_fzf_prefix="$(brew --prefix)/opt/fzf/shell"
+[ -f "$_fzf_prefix/completion.zsh" ] && source "$_fzf_prefix/completion.zsh"
+[ -f "$_fzf_prefix/key-bindings.zsh" ] && source "$_fzf_prefix/key-bindings.zsh"
+unset _fzf_prefix
+
+# ── zoxide（智能 cd）─────────────────────
+eval "$(zoxide init zsh)"
+
+# ── Starship 提示符 ──────────────────────
+eval "$(starship init zsh)"
+
+# ── bat / eza 现代替代工具 ────────────────
+alias cat='bat --paging=never'
+alias catp='bat'
+alias ls='eza --icons'
+alias ll='eza -la --icons --git'
+alias la='eza -a --icons'
+alias tree='eza --tree --icons'
+
+# ── [CUSTOMIZE: JDK 切换] ─────────────────
+# 如需多版本 JDK 切换，取消注释并修改路径
+# switch_jdk() {
+#     export JAVA_HOME="$1"
+#     export PATH="$JAVA_HOME/bin:$(echo "$PATH" | tr ':' '\n' | grep -v 'jdk' | tr '\n' ':' | sed 's/:$//')"
+#     java -version
+# }
+# alias usejdk8='switch_jdk "$HOME/path/to/jdk8/Contents/Home"'
+# alias usejdk17='switch_jdk "$HOME/path/to/jdk17/Contents/Home"'
+
+# ── tmux + iTerm2 集成快捷命令 ───────────
+# 用法: t        → 自动接入或新建默认会话 "main"
+#       t work   → 自动接入或新建名为 "work" 的会话
+#       tls      → 列出所有 tmux 会话
+#       tk work  → 杀掉名为 "work" 的会话
+#       tka      → 杀掉所有 tmux 会话
+t() {
+    local session="${1:-main}"
+    if tmux has-session -t "$session" 2>/dev/null; then
+        tmux -CC attach -t "$session"
+    else
+        tmux -CC new -s "$session"
+    fi
+}
+alias tls='tmux ls'
+alias tk='tmux kill-session -t'
+alias tka='tmux kill-server'
+
+# ── yazi 终端文件管理器 ──────────────────
+# 使用 y 命令启动，退出时自动 cd 到浏览的目录（按 q 切换，按 Q 不切换）
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}

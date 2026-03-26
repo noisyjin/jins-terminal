@@ -1,0 +1,53 @@
+[core]
+	quotepath = false
+	longpaths = true
+	autocrlf = input
+	trustctime = false
+	excludesfile = ~/.gitignore_global
+	attributesfile = ~/.attributes_global
+	ignorecase = true
+	untrackedcache = true
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+	line-numbers = true
+	syntax-theme = Catppuccin Mocha
+[init]
+	defaultBranch = master
+[http]
+	postBuffer = 655360000
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[diff "text"]
+	textconv = cat
+[mergetool]
+	keepBackup = false
+[lfs]
+	concurrenttransfers = 32
+	fetchrecentrefsdays = 0
+	pruneoffsetdays = 0
+	dialtimeout = 3
+	tlstimeout = 3
+[lfs "transfer"]
+	maxretries = 1
+	maxretrydelay = 2
+[merge "lfs-text"]
+	driver = git lfs merge-driver --ancestor %O --current %A --other %B --marker-size %L --output %A --program 'git merge-file --stdout --marker-size=%%L %%A %%O %%B >%%D'
+[rebase]
+	backend = merge
+[protocol]
+	version = 1
+[pull]
+	rebase = false
+[safe]
+	directory = *
+[user]
+	useConfigOnly = true
+	name = {{GIT_USER_NAME}}
+	email = {{GIT_USER_EMAIL}}

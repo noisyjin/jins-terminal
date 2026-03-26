@@ -1,0 +1,141 @@
+# ============================================
+# Starship 提示符配置 — 自定义高效风格
+# ============================================
+# 文档: https://starship.rs/config/
+
+# 提示符整体格式（两行式）
+format = """
+[╭─](dimmed white) $directory$git_branch$git_status$java$nodejs$python$cmd_duration
+[╰─](dimmed white) $character"""
+
+# 提示符之间加空行
+add_newline = true
+
+# 命令超时（毫秒）
+command_timeout = 1000
+
+# ── 目录 ──────────────────────────────────
+[directory]
+format = "[ $path]($style)[$read_only]($read_only_style) "
+style = "bold cyan"
+read_only = " 󰌾"
+read_only_style = "red"
+truncation_length = 3
+truncate_to_repo = true       # 在 git 仓库中截断到仓库根
+
+# ── Git 分支 ──────────────────────────────
+[git_branch]
+format = "[ $branch]($style) "
+style = "bold purple"
+truncation_length = 30
+
+# ── Git 状态 ──────────────────────────────
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "bold yellow"
+conflicted = "="
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked = "?${count}"
+stashed = "*${count}"
+modified = "~${count}"
+staged = "+${count}"
+renamed = "»${count}"
+deleted = "✘${count}"
+
+# ── Java ──────────────────────────────────
+[java]
+format = "[ $version]($style) "
+style = "bold red"
+detect_files = ["pom.xml", "build.gradle", "build.gradle.kts", ".java-version", "build.xml"]
+detect_extensions = ["java", "class", "jar"]
+
+# ── Node.js ───────────────────────────────
+[nodejs]
+format = "[ $version]($style) "
+style = "bold green"
+
+# ── Python ────────────────────────────────
+[python]
+format = "[ $version( $virtualenv)]($style) "
+style = "bold yellow"
+
+# ── 命令耗时 ──────────────────────────────
+[cmd_duration]
+format = "[ took $duration]($style) "
+style = "bold dimmed yellow"
+min_time = 3_000              # 仅显示 >3 秒的命令
+
+# ── 状态字符 ──────────────────────────────
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[✗](bold red)"
+vimcmd_symbol = "[❮](bold blue)"
+
+# ── 禁用不需要的模块（加速渲染）────────
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[package]
+disabled = true
+
+[rust]
+disabled = true
+
+[golang]
+disabled = true
+
+[ruby]
+disabled = true
+
+[php]
+disabled = true
+
+[swift]
+disabled = true
+
+[kotlin]
+disabled = true
+
+[lua]
+disabled = true
+
+[perl]
+disabled = true
+
+[terraform]
+disabled = true
+
+[vagrant]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[conda]
+disabled = true
+
+[memory_usage]
+disabled = true
+
+[battery]
+disabled = true
+
+[time]
+disabled = true
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[line_break]
+disabled = true

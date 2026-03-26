@@ -1,0 +1,35 @@
+# ============================================
+# Homebrew 包清单 — macOS 终端开发环境
+# 用法: brew bundle --file=<path>/Brewfile
+# ============================================
+
+# 终端核心
+brew "tmux"
+brew "neovim"
+
+# 模糊搜索 & 导航
+brew "fzf"
+brew "zoxide"
+
+# 现代 CLI 替代品
+brew "bat"                # cat 替代，带语法高亮
+brew "eza"                # ls 替代，带图标和 git 状态
+brew "fd"                 # find 替代，更快更友好
+brew "ripgrep"            # grep 替代，超快
+brew "git-delta"          # diff 美化，side-by-side + 语法高亮
+brew "jq"                 # JSON 处理
+brew "tlrc"               # tldr 客户端，速查命令用法
+
+# 文件管理 & 提示符
+brew "yazi"               # 终端文件管理器
+brew "starship"           # 跨 shell 提示符
+
+# Git 增强
+brew "gh"                 # GitHub CLI
+brew "forgit"             # git 交互式 TUI
+
+# 可选: SSH 文件传输 (配合 iTerm2 Zmodem triggers)
+brew "lrzsz"
+
+# 字体 (Nerd Font — 图标支持)
+cask "font-jetbrains-mono-nerd-font"
